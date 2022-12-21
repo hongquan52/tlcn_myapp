@@ -18,7 +18,7 @@ import java.util.Date;
 @Table(name = "tbl_product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=  GenerationType.IDENTITY)
     private long id;
 
     @Column(length = 45, unique = true)

@@ -2,9 +2,11 @@ package com.example.myapp.services.implement;
 
 import com.example.myapp.dto.request.ProductRequestDTO;
 import com.example.myapp.dto.response.ProductGalleryDTO;
+import com.example.myapp.dto.response.ProductResponseDTO;
 import com.example.myapp.dto.response.ResponseObject;
 import com.example.myapp.entites.Product;
 import com.example.myapp.exceptions.ResourceAlreadyExistsException;
+import com.example.myapp.exceptions.ResourceNotFoundException;
 import com.example.myapp.mapper.ProductMapper;
 import com.example.myapp.repositories.ProductRepository;
 import com.example.myapp.services.ProductService;
@@ -44,26 +46,59 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<ResponseObject> createProduct(ProductRequestDTO productRequestDTO) {
-        return null;
+        Product product = mapper.productRequestDTOtoProduct(productRequestDTO);
+        product = checkExists(product);
+        // set image:
+        // code after
+
+        Product productSaved = productRepository.save(product);
+        ProductResponseDTO productResponseDTO = mapper.productToProductResponseDTO(productSaved);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Create product successfully!", productResponseDTO));
     }
 
     @Override
     public ResponseEntity<ResponseObject> updateProduct(ProductRequestDTO productRequestDTO, Long id) {
-        return null;
+        Product product = mapper.productRequestDTOtoProduct(productRequestDTO);
+
+        // được xài khi set thumbnail
+        Product getProduct = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with ID = " + id));
+        product.setId(id);
+
+        product = checkExists(product);
+        Product productSaved = productRepository.save(product);
+        ProductResponseDTO productResponseDTO = mapper.productToProductResponseDTO(productSaved);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Update product successfully!", productResponseDTO));
     }
 
     @Override
     public ResponseEntity<ResponseObject> deleteProduct(Long id) {
-        return null;
+        Product getProduct = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with ID = " + id));
+
+        // delete image of product
+        // code after
+
+        // delete attribute of product
+        // code after
+
+        productRepository.delete(getProduct);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Delete product successfully!"));
     }
 
     @Override
     public ResponseEntity<?> getProductById(Long id) {
-        return null;
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with ID = " + id));
+        ProductResponseDTO productResponseDTO = mapper.productToProductResponseDTO(product);
+
+        return ResponseEntity.status(HttpStatus.OK).body(productResponseDTO);
     }
 
     @Override
     public ResponseEntity<?> search(String search, int page, int size) {
+
+
         return null;
     }
     private ProductGalleryDTO toProductGalleryDTO(Product product){

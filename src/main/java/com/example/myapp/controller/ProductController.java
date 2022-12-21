@@ -1,7 +1,10 @@
 package com.example.myapp.controller;
 
+import com.example.myapp.dto.request.ProductRequestDTO;
+import com.example.myapp.dto.response.ResponseObject;
 import com.example.myapp.services.ProductService;
 import com.example.myapp.utils.Utils;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,5 +27,21 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getProductById(@PathVariable(name = "id") Long id) {
         return productService.getProductById(id);
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<ResponseObject> createProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO){
+        return productService.createProduct(productRequestDTO);
+    }
+
+    @PutMapping(value = "")
+    public ResponseEntity<ResponseObject> updateProduct(@ModelAttribute @Valid ProductRequestDTO productRequestDTO,
+                                                        @RequestParam(name = "id") Long id){
+        return productService.updateProduct(productRequestDTO, id);
+    }
+
+    @DeleteMapping(value = "")
+    public ResponseEntity<ResponseObject> deleteProduct(@RequestParam(name = "id") Long id){
+        return productService.deleteProduct(id);
     }
 }

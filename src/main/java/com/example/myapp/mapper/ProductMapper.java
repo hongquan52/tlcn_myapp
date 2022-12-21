@@ -9,7 +9,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-    @Mapping(target = "id", expression = "java(null)")
+    // id không được set null trong Mapper
+//    @Mapping(target = "id", expression = "java(null)")
     @Mapping(target = "name", source = "dto.name")
     @Mapping(target = "description", source = "dto.description")
     @Mapping(target = "quantity", source = "dto.quantity")
@@ -31,6 +32,7 @@ public interface ProductMapper {
 
     @Mapping(target = "category", source = "p.category.name")
     @Mapping(target = "brand", source = "p.brand.name")
+
 
     ProductResponseDTO productToProductResponseDTO(Product p);
 }

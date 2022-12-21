@@ -1,5 +1,6 @@
 package com.example.myapp.dto.response;
 
+import com.example.myapp.entites.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
