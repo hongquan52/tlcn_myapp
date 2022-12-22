@@ -46,8 +46,14 @@ public class BillController {
         return billService.deleteBill(billId);
     }
 
+    // bill detail api:
     @GetMapping(value = "/product")
     public ResponseEntity<?> getBillProduct(@RequestParam(name = "billId") Long billId) {
         return billDetailService.getProductByBill(billId);
+    }
+
+    @GetMapping(value = "/product/paid")
+    public ResponseEntity<?> getAllProductToBillPayed() {
+        return billDetailService.getAllProductByBillPayed();
     }
 }

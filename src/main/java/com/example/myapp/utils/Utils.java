@@ -1,5 +1,9 @@
 package com.example.myapp.utils;
 
+import com.example.myapp.entites.Product;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class Utils {
@@ -16,4 +20,17 @@ public class Utils {
         return total/feedbackList.size();
     }
     */
+
+    public static BigDecimal getTotalPrice(Product product, BigDecimal totalPrice, int quantity) {
+        if (product.getPromotion() > 0) {
+            totalPrice = totalPrice
+                    .add(product.getPrice().multiply(
+                            BigDecimal.valueOf((1 - (product.getPromotion() / 100)) * (double) quantity)))
+                    .setScale(2, RoundingMode.UP);
+        } else {
+            totalPrice = totalPrice.add(product.getPrice().multiply(BigDecimal.valueOf(quantity))).setScale(2, RoundingMode.UP);
+        }
+
+        return totalPrice;
+    }
 }
