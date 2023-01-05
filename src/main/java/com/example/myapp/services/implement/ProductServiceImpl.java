@@ -4,13 +4,15 @@ import com.example.myapp.dto.request.ProductRequestDTO;
 import com.example.myapp.dto.response.ProductGalleryDTO;
 import com.example.myapp.dto.response.ProductResponseDTO;
 import com.example.myapp.dto.response.ResponseObject;
+import com.example.myapp.entites.Brand;
 import com.example.myapp.entites.Product;
 import com.example.myapp.exceptions.ResourceAlreadyExistsException;
 import com.example.myapp.exceptions.ResourceNotFoundException;
 import com.example.myapp.mapper.ProductMapper;
+import com.example.myapp.repositories.BrandRepository;
 import com.example.myapp.repositories.ProductRepository;
 import com.example.myapp.services.ProductService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,8 @@ import java.util.Optional;
 @Transactional
 public class ProductServiceImpl implements ProductService {
     @Autowired private ProductRepository productRepository;
+    @Autowired private BrandRepository brandRepository;
+
 
     private final ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
 
@@ -101,11 +105,41 @@ public class ProductServiceImpl implements ProductService {
 
         return null;
     }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfProduct() {
+        int numberOfProduct = productRepository.getNumberOfProduct().orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfProduct);
+    }
+
+    @Override
+    public ResponseEntity<?> getProductByBrand(Long brandId) {
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Could not find product with brand ID = " + brandId));
+        List<Product> productList = productRepository.findProductByBrand(brand);
+
+        List<ProductResponseDTO> productResponseDTOList = new ArrayList<>();
+
+        for (Product p : productList) {
+            ProductResponseDTO productResponseDTO = mapper.productToProductResponseDTO(p);
+            productResponseDTOList.add(productResponseDTO);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(productResponseDTOList);
+    }
+
+    @Override
+    public ResponseEntity<?> getProductByCategory(Long categoryId) {
+        return null;
+    }
+
     private ProductGalleryDTO toProductGalleryDTO(Product product){
         ProductGalleryDTO productGalleryDTO = new ProductGalleryDTO();
         productGalleryDTO.setId(product.getId());
         productGalleryDTO.setName(product.getName());
         productGalleryDTO.setPrice(product.getPrice());
+        productGalleryDTO.setBrand(product.getBrand().getName());
+        productGalleryDTO.setCategory(product.getCategory().getName());
         productGalleryDTO.setImage(product.getImage());
         productGalleryDTO.setPromotion(product.getPromotion());
 

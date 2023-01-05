@@ -5,7 +5,7 @@ import com.example.myapp.dto.response.DeliveryResponseDTO;
 import com.example.myapp.dto.response.ResponseObject;
 import com.example.myapp.services.DeliveryService;
 import com.example.myapp.utils.Utils;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +42,10 @@ public class DeliveryController {
     @GetMapping(value = "/{id}")
     public DeliveryResponseDTO getDeliveryById(@PathVariable(name = "id") Long id) {
         return deliveryService.getDeliveryById(id);
+    }
+    @GetMapping(value = "/bill")
+    public DeliveryResponseDTO getDeliveryByBill(@RequestParam(name = "billId") Long billId) {
+        return deliveryService.getDeliveryByBill(billId);
     }
 
     @GetMapping(value = "/status")

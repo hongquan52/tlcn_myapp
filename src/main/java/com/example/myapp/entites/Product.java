@@ -1,8 +1,8 @@
 package com.example.myapp.entites;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -50,5 +50,5 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
-    private Category brand;
+    private Brand brand;
 }

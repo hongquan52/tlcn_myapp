@@ -16,7 +16,7 @@ public interface BillDetailMapper {
     @Mapping(target = "payDate", source = "b.bill.payDate")
     @Mapping(target = "payMethod", source = "b.bill.paymentMethod")
     @Mapping(target = "status", source = "b.bill.status")
-    @Mapping(target = "price",  expression = "java(null)")
+    @Mapping(target = "price",  source = "b.product.price")
 
     BillDetailResponseDTO billDetailToBillDetailResponseDTO(BillDetail b);
 }

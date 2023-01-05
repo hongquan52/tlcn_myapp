@@ -4,7 +4,7 @@ import com.example.myapp.dto.request.ProductRequestDTO;
 import com.example.myapp.dto.response.ResponseObject;
 import com.example.myapp.services.ProductService;
 import com.example.myapp.utils.Utils;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +27,11 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getProductById(@PathVariable(name = "id") Long id) {
         return productService.getProductById(id);
+    }
+
+    @GetMapping(value = "/brand/{id}")
+    public ResponseEntity<?> getProductByBrand(@PathVariable(name = "id") Long id) {
+        return productService.getProductByBrand(id);
     }
 
     @PostMapping(value = "")

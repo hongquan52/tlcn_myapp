@@ -36,4 +36,11 @@ public class CartController {
                                                               @RequestParam(name = "productId") Long productId) {
         return cartDetailService.deleteProductToCart(cartId, productId);
     }
+
+    @DeleteMapping(value = "product/all")
+    public ResponseEntity<ResponseObject> deleteProductToCart(@RequestParam(name = "cartId") Long cartId
+                                                              ) {
+        return cartDetailService.clearCartDetail(cartId);
+    }
+
 }

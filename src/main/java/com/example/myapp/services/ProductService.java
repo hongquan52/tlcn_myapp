@@ -14,4 +14,10 @@ public interface ProductService {
     ResponseEntity<?> getProductById(Long id);
     ResponseEntity<?> search(String search, int page, int size);
 
+    ResponseEntity<Integer> getNumberOfProduct();
+
+    ResponseEntity<?> getProductByBrand(Long brandId);
+
+    ResponseEntity<?> getProductByCategory(Long categoryId);
+
 }

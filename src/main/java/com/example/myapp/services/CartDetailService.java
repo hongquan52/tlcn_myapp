@@ -10,4 +10,6 @@ public interface CartDetailService {
     ResponseEntity<ResponseObject> deleteProductToCart(Long cartId, Long productId);
 
     ResponseEntity<?> getProductToCart(Long cartId);
+
+    ResponseEntity<ResponseObject> clearCartDetail(Long cartId);
 }

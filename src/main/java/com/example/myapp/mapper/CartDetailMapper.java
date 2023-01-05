@@ -10,7 +10,12 @@ public interface CartDetailMapper {
     @Mapping(target = "productId", source = "c.product.id")
     @Mapping(target = "cartId", source = "c.cart.id")
     @Mapping(target = "amount", source = "c.amount")
+    @Mapping(target = "price", source = "c.product.price")
     @Mapping(target = "productName", source = "c.product.name")
+    @Mapping(target = "productImage", source = "c.product.image")
+    @Mapping(target = "promotion", source = "c.product.promotion")
+
+
 
     CartDetailResponseDTO cartDetailToCartDetailResponseDTO(CartDetail c);
 }

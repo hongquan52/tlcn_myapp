@@ -1,7 +1,7 @@
 package com.example.myapp.entites;
 
 import com.example.myapp.entites.Keys.BillDetailKey;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,9 @@ package com.example.myapp.mapper;
 
 import com.example.myapp.dto.response.ProductResponseDTO;
 import com.example.myapp.dto.request.ProductRequestDTO;
+import com.example.myapp.dto.response.ProductStatisticResponseDTO;
 import com.example.myapp.entites.Product;
+import com.example.myapp.models.IProductQuantity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,7 +23,6 @@ public interface ProductMapper {
     @Mapping(target = "brand.id", source = "dto.brand")
     Product productRequestDTOtoProduct(ProductRequestDTO dto);
 
-
     @Mapping(target = "id", source = "p.id")
     @Mapping(target = "name", source = "p.name")
     @Mapping(target = "quantity", source = "p.quantity")
@@ -32,8 +33,15 @@ public interface ProductMapper {
 
     @Mapping(target = "category", source = "p.category.name")
     @Mapping(target = "brand", source = "p.brand.name")
-
-
     ProductResponseDTO productToProductResponseDTO(Product p);
+
+
+    @Mapping(target = "id", source = "ip.product.id")
+    @Mapping(target = "name", source = "ip.product.name")
+    @Mapping(target = "quantity", source = "ip.product.quantity")
+    @Mapping(target = "price", source = "ip.product.price")
+    @Mapping(target = "quantitySales", source = "ip.quantity")
+    @Mapping(target = "totalPrice", expression = "java(null)")
+    ProductStatisticResponseDTO productToProductStatisticResponseDTO(IProductQuantity ip);
 }
 

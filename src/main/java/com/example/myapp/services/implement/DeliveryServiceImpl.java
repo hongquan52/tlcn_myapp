@@ -12,7 +12,7 @@ import com.example.myapp.mapper.DeliveryMapper;
 import com.example.myapp.models.ItemTotalPage;
 import com.example.myapp.repositories.*;
 import com.example.myapp.services.DeliveryService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -55,10 +55,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         User user = userRepository.findById(deliveryRequestDTO.getShipperId()).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy User với ID = " + deliveryRequestDTO.getShipperId()));
         Bill bill = billRepository.findById(deliveryRequestDTO.getBillId()).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy Bill với ID = " + deliveryRequestDTO.getBillId()));
-        /*Address address = addressRepository.findById(deliveryRequestDTO.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy Address với ID = " + deliveryRequestDTO.getAddressId()));
-*/
+        Address address = addressRepository.findById(deliveryRequestDTO.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy Address với ID = " + deliveryRequestDTO.getAddressId()));
+
         delivery.setShipper(user);
-        /*delivery.setAddress(address);*/
+        delivery.setAddress(address);
         delivery.setBill(bill);
 
         Delivery deliverySaved = deliveryRepository.save(delivery);
@@ -132,6 +132,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         return ResponseEntity.status(HttpStatus.OK).body(deliveryResponseDTOList);
     }
 
+
+
     @Override
     public ResponseEntity<?> getDeliveryByShipper(Long shipperId) {
         User shipper = userRepository.findById(shipperId).orElseThrow(() -> new ResourceNotFoundException("Could not find shipper with ID = " + shipperId));
@@ -160,9 +162,13 @@ public class DeliveryServiceImpl implements DeliveryService {
         return ResponseEntity.status(HttpStatus.OK).body(deliveryResponseDTOList);
     }
 
-
     @Override
     public DeliveryResponseDTO getDeliveryByBill(Long billId) {
-        return null;
+        Bill bill = billRepository.findById(billId).orElseThrow(() -> new ResourceNotFoundException("Could not find shipper with ID = " + billId));
+
+        Delivery delivery = deliveryRepository.findDeliveryByBill(bill);
+        DeliveryResponseDTO deliveryResponseDTO = mapper.deliveryToDeliveryResponseDTO(delivery);
+        return deliveryResponseDTO;
     }
+
 }

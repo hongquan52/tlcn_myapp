@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
-    Optional<Delivery> findDeliveryByBill(Bill bill);
+    Delivery findDeliveryByBill(Bill bill);
 
     List<Delivery> findDeliveriesByStatus(String status);
     List<Delivery> findDeliveriesByShipper(User shipper);

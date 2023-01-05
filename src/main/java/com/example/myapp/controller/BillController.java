@@ -4,7 +4,7 @@ import com.example.myapp.dto.request.BillRequestDTO;
 import com.example.myapp.dto.response.ResponseObject;
 import com.example.myapp.services.BillDetailService;
 import com.example.myapp.services.BillService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +55,11 @@ public class BillController {
     @GetMapping(value = "/product/paid")
     public ResponseEntity<?> getAllProductToBillPayed() {
         return billDetailService.getAllProductByBillPayed();
+    }
+
+    @PostMapping(value = "/billDetail")
+    public ResponseEntity<ResponseObject> addProductToBill(@RequestParam(name = "billId") Long billId,
+                                                           @RequestParam(name = "productId") Long productId, @RequestParam(name = "amount") int amount) {
+        return billDetailService.addProductToBill(billId, productId, amount);
     }
 }

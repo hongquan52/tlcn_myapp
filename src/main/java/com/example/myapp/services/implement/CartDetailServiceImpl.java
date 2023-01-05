@@ -91,4 +91,16 @@ public class CartDetailServiceImpl implements CartDetailService {
 
         return ResponseEntity.status(HttpStatus.OK).body(cartDetailResponseDTOList);
     }
+
+    @Override
+    public ResponseEntity<ResponseObject> clearCartDetail(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Could not find cart with ID = " + cartId));
+
+        List<CartDetail> cartDetail = cartDetailRepository.findCartDetailByCart(cart);
+
+        cartDetailRepository.deleteAll(cartDetail);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Clear all product in cart !!!"));
+
+    }
 }

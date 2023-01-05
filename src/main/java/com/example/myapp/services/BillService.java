@@ -15,4 +15,15 @@ public interface BillService {
 
     ResponseEntity<ResponseObject> updateBill(Long billId, BillRequestDTO billRequestDTO);
     ResponseEntity<ResponseObject> deleteBill(Long billId);
+
+    ResponseEntity<Integer> getNumberOfBill();
+
+    ResponseEntity<Double> getSales();
+
+    ResponseEntity<Integer> getNumberOfBillWaitingConfirm();
+    ResponseEntity<Integer> getNumberOfBillConfimed();
+    ResponseEntity<Integer> getNumberOfBillReadyToDelivery();
+    ResponseEntity<Integer> getNumberOfBillDelivering();
+    ResponseEntity<Integer> getNumberOfBillPaid();
+    ResponseEntity<Integer> getNumberOfBillCancel();
 }

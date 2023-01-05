@@ -19,9 +19,15 @@ public interface DeliveryMapper {
     @Mapping(target = "id", source = "d.id")
     @Mapping(target = "status", source = "d.status")
     @Mapping(target = "billId", source = "d.bill.id")
+    @Mapping(target = "totalPrice", source = "d.bill.totalPrice")
     @Mapping(target = "shipperId", source = "d.shipper.id")
     @Mapping(target = "shipperName", source = "d.shipper.name")
     @Mapping(target = "shipperPhone", source = "d.shipper.phone")
+    @Mapping(target = "deliveryApartmentNumber", source = "d.address.apartmentNumber")
+    @Mapping(target = "deliveryWard", source = "d.address.ward")
+    @Mapping(target = "deliveryDistrict", source = "d.address.district")
+    @Mapping(target = "deliveryProvince", source = "d.address.province")
+
 
     DeliveryResponseDTO deliveryToDeliveryResponseDTO(Delivery d);
 }

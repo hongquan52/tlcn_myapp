@@ -20,6 +20,7 @@ public interface BillMapper {
     @Mapping(target = "status", source ="b.status")
     @Mapping(target = "payDate", source ="b.payDate")
     @Mapping(target = "paymentMethod", source ="b.paymentMethod")
+    @Mapping(target = "totalPrice", source = "b.totalPrice")
 
     Bill billRequestDTOToBill(BillRequestDTO b);
 }

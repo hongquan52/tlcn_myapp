@@ -68,8 +68,9 @@ public class BillServiceImpl implements BillService {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Could not find user with ID = " + userId));
         Bill bill = billMapper.billRequestDTOToBill(billRequestDTO);
         bill.setUser(user);
-        // set totalPrice khi mới tạo = 0 VNĐ
-        bill.setTotalPrice(BigDecimal.valueOf(0));
+
+        /*// set totalPrice khi mới tạo = 0 VNĐ
+        bill.setTotalPrice(BigDecimal.valueOf(0));*/
 
         BillResponseDTO billResponseDTO = billMapper.billToBillResponseDTO(billRepository.save(bill));
 
@@ -98,5 +99,53 @@ public class BillServiceImpl implements BillService {
 
         billRepository.delete(getBill);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Delete bill success!"));
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBill() {
+        int numberOfBill = billRepository.getNumberOfBill().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
+    }
+
+    @Override
+    public ResponseEntity<Double> getSales() {
+        double totalSale = billRepository.getSales().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(totalSale);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBillWaitingConfirm() {
+        int numberOfBill = billRepository.getNumberOfBillWaitingConfirm().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBillConfimed() {
+        int numberOfBill = billRepository.getNumberOfBillConfirmed().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBillReadyToDelivery() {
+        int numberOfBill = billRepository.getNumberOfBillReadyToDelivery().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBillDelivering() {
+        int numberOfBill = billRepository.getNumberOfBillDelivering().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBillPaid() {
+        int numberOfBill = billRepository.getNumberOfBillPaid().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getNumberOfBillCancel() {
+        int numberOfBill = billRepository.getNumberOfBillCancel().orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
+        return ResponseEntity.status(HttpStatus.OK).body(numberOfBill);
     }
 }

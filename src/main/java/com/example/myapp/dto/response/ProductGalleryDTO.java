@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class ProductGalleryDTO {
     private Long id;
     private String name;
+    private String category;
+    private String brand;
     private int promotion;
     private BigDecimal price;
     private String image;

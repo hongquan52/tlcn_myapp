@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class Utils {
-    public static final String  DEFAULT_PAGE_SIZE = "10";
+    public static final String  DEFAULT_PAGE_SIZE = "100";
     public static final String DEFAULT_PAGE_NUMBER = "1";
 
     /*

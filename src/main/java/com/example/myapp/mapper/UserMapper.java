@@ -2,7 +2,9 @@ package com.example.myapp.mapper;
 
 import com.example.myapp.dto.request.UserRequestDTO;
 import com.example.myapp.dto.response.UserResponseDTO;
+import com.example.myapp.dto.response.UserShipperResponseDTO;
 import com.example.myapp.entites.User;
+import com.example.myapp.models.IListShipper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -27,4 +29,8 @@ public interface UserMapper {
     @Mapping(target = "role", source = "user.role")
 
     UserResponseDTO userToUserResponseDTO(User user);
+
+    @Mapping(target = "id", source = "l.id")
+    @Mapping(target = "name", source = "l.name")
+    UserShipperResponseDTO iListShipperToShipperResponseDTO(IListShipper l);
 }

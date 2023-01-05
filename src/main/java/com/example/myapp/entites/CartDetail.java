@@ -1,8 +1,8 @@
 package com.example.myapp.entites;
 
 import com.example.myapp.entites.Keys.CartDetailKey;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

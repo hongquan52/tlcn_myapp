@@ -13,7 +13,7 @@ import com.example.myapp.repositories.FeedbackRepository;
 import com.example.myapp.repositories.ProductRepository;
 import com.example.myapp.repositories.UserRepository;
 import com.example.myapp.services.FeedbackService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

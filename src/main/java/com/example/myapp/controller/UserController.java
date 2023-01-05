@@ -6,14 +6,16 @@ import com.example.myapp.dto.response.UserResponseDTO;
 import com.example.myapp.services.ProductService;
 import com.example.myapp.services.UserService;
 import com.example.myapp.utils.Utils;
-import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
+/*import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
 @RestController
@@ -48,5 +50,10 @@ public class UserController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<ResponseObject> updateUser(@PathVariable(name = "id") Long id, @ModelAttribute @Valid UserRequestDTO userRequestDTO){
         return userService.updateUser(id, userRequestDTO);
+    }
+
+    @GetMapping(value = "/shipper")
+    public ResponseEntity<?> getALlShipper() {
+        return userService.getALlShipper();
     }
 }

@@ -4,6 +4,8 @@ import com.example.myapp.dto.response.BillDetailResponseDTO;
 import com.example.myapp.dto.response.ResponseObject;
 import com.example.myapp.entites.Bill;
 import com.example.myapp.entites.BillDetail;
+import com.example.myapp.entites.Product;
+import com.example.myapp.exceptions.InvalidValueException;
 import com.example.myapp.exceptions.ResourceNotFoundException;
 import com.example.myapp.mapper.BillDetailMapper;
 import com.example.myapp.mapper.UserMapper;
@@ -20,8 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillDetailServiceImpl implements BillDetailService {
@@ -34,9 +38,46 @@ public class BillDetailServiceImpl implements BillDetailService {
 
     @Override
     public ResponseEntity<ResponseObject> addProductToBill(Long billId, Long productId, int amount) {
+        BillDetail billDetail = new BillDetail();
+        Bill bill = billRepository.findById(billId).orElseThrow(() -> new ResourceNotFoundException("Could not find bill with ID = " + billId));
+        BigDecimal totalPrice = bill.getTotalPrice();
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Could not find product with ID = " + productId));
 
+        Optional<BillDetail> getBillDetail = billDetailRepository.findBillDetailByBillAndProduct(bill, product);
+        if (amount > product.getQuantity()){
+            throw new InvalidValueException("Amount product " + product.getName() + " must be less than amount product exists");
+        } else if(amount < 0) {
+            throw new InvalidValueException("Amount product must greater than 1");
+        } else {
+            //Update amount product
+            int newAmountProduct = product.getQuantity() - amount;
+            product.setQuantity(newAmountProduct);
+            productRepository.save(product);
+            if (getBillDetail.isPresent()){
+                int newAmount = getBillDetail.get().getQuantity() + amount;
+                billDetail = getBillDetail.get();
+                billDetail.setQuantity(newAmount);
+            } else {
+                billDetail.setBill(bill);
+                billDetail.setProduct(product);
+                billDetail.setQuantity(amount);
 
-        return null;
+            }
+
+            //Total price of bill
+            totalPrice = totalPrice.add(totalPrice(product, amount));
+            bill.setTotalPrice(totalPrice);
+            billRepository.save(bill);
+        }
+        BillDetailResponseDTO billDetailResponseDTO = billDetailMapper.billDetailToBillDetailResponseDTO(billDetailRepository.save(billDetail));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Add product to bill success!", billDetailResponseDTO));
+    }
+    private BigDecimal totalPrice(Product product, int amount){
+        BigDecimal totalPrice;
+
+        totalPrice = product.getPrice().multiply(BigDecimal.valueOf(amount)).setScale(2, RoundingMode.UP);
+
+        return totalPrice;
     }
 
     @Override
